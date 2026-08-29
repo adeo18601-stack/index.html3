@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Aditya!</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0c10;
+            color: #ffffff;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Canvas Fireworks Background */
+        #fireworksCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Gift Box Initial Screen */
+        #gift-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #1f2833 0%, #0b0c10 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            cursor: pointer;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .gift-box {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            background: #ff4081;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(255, 64, 129, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: bounce 1.5s infinite;
+        }
+
+        .gift-box::before {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 100%;
+            background: #ffd700;
+        }
+
+        .gift-box::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 25px;
+            background: #ffd700;
+        }
+
+        .click-text {
+            margin-top: 30px;
+            font-size: 1.4rem;
+            color: #66fcf1;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+
+        /* Main Celebration Screen */
+        #main-content {
+            display: none;
+            opacity: 0;
+            width: 100%;
+            max-width: 900px;
+            padding: 20px;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+            transition: opacity 1s ease-in;
+        }
+
+        h1 {
+            font-size: 3rem;
+            color: #66fcf1;
+            text-align: center;
+            margin-bottom: 25px;
+            text-shadow: 0 0 15px rgba(102, 252, 241, 0.7);
+        }
+
+        /* Slideshow Container */
+        .slideshow-container {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), 0 0 20px rgba(102, 252, 241, 0.3);
+            background: #1f2833;
+        }
+
+        .slide {
+            display: none;
+            width: 100%;
+            height: 100%;
+        }
+
+        .slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .active {
+            display: block;
+        }
+
+        /* Navigation Arrows */
+        .prev, .next {
+            cursor: pointer;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            padding: 16px;
+            color: white;
+            font-weight: bold;
+            font-size: 22px;
+            transition: 0.3s ease;
+            border-radius: 50%;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.4);
+            text-decoration: none;
+        }
+
+        .next { right: 15px; }
+        .prev { left: 15px; }
+
+        .prev:hover, .next:hover {
+            background-color: rgba(102, 252, 241, 0.8);
+            color: #0b0c10;
+        }
+
+        /* Music Controls */
+        .audio-container {
+            margin-top: 25px;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+        }
+
+        audio {
+            outline: none;
+            border-radius: 30px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="fireworksCanvas"></canvas>
+
+    <div id="gift-screen" onclick="openSurprise()">
+        <div class="gift-box"></div>
+        <div class="click-text">Click the box to open your surprise! 🎁</div>
+    </div>
+
+    <div id="main-content">
+        <h1>Happy Birthday Aditya! ✨ 🎉</h1>
+
+        <div class="slideshow-container">
+            <div class="slide active">
+                <img src="1000057669.jpg" alt="Aditya photo 1">
+            </div>
+            <div class="slide">
+                <img src="1000057289.jpg" alt="Aditya photo 2">
+            </div>
+            <div class="slide">
+                <img src="1000052136.jpg" alt="Aditya photo 3">
+            </div>
+            <div class="slide">
+                <img src="1000030696.jpg" alt="Aditya photo 4">
+            </div>
+            <div class="slide">
+                <img src="2825008b-a4b5-4635-a019-4c9ce09757a4-1_all_461.jpg" alt="Aditya photo 5">
+            </div>
+            <div class="slide">
+                <img src="2825008b-a4b5-4635-a019-4c9ce09757a4-1_all_485.jpg" alt="Aditya photo 6">
+            </div>
+            <div class="slide">
+                <img src="2825008b-a4b5-4635-a019-4c9ce09757a4-1_all_479.jpg" alt="Aditya photo 7">
+            </div>
+            <div class="slide">
+                <img src="2825008b-a4b5-4635-a019-4c9ce09757a4-1_all_515.jpg" alt="Aditya photo 8">
+            </div>
+            <div class="slide">
+                <img src="2825008b-a4b5-4635-a019-4c9ce09757a4-1_all_541.jpg" alt="Aditya photo 9">
+            </div>
+            <div class="slide">
+                <img src="1000030657.jpg" alt="Aditya photo 10">
+            </div>
+
+            <a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+            <a class="next" onclick="changeSlide(1)">&#10095;</a>
+        </div>
+
+        <div class="audio-container">
+            <audio id="bg-music" controls loop>
+                <source src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a739d4.mp3?filename=happy-birthday-155461.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+
+    <script>
+        // Opening Gift Box logic
+        function openSurprise() {
+            const giftScreen = document.getElementById('gift-screen');
+            const mainContent = document.getElementById('main-content');
+            const music = document.getElementById('bg-music');
+
+            giftScreen.style.opacity = '0';
+            setTimeout(() => {
+                giftScreen.style.display = 'none';
+                mainContent.style.display = 'flex';
+                setTimeout(() => mainContent.style.opacity = '1', 50);
+                startFireworks();
+                music.play().catch(e => console.log("Audio autoplay prevented"));
+            }, 800);
+        }
+
+        // Image Slideshow logic
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.slide');
+
+        function showSlide(index) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            if (index >= slides.length) slideIndex = 0;
+            if (index < 0) slideIndex = slides.length - 1;
+            slides[slideIndex].classList.add('active');
+        }
+
+        function changeSlide(n) {
+            showSlide(slideIndex += n);
+        }
+
+        setInterval(() => {
+            changeSlide(1);
+        }, 3500);
+
+        // Fireworks/Crackers Animation Engine
+        const canvas = document.getElementById('fireworksCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor(x, y, color) {
+                this.x = x;
+                this.y = y;
+                this.color = color;
+                this.radius = Math.random() * 3 + 1;
+                this.velocity = {
+                    x: (Math.random() - 0.5) * 8,
+                    y: (Math.random() - 0.5) * 8
+                };
+                this.alpha = 1;
+                this.friction = 0.98;
+                this.gravity = 0.05;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            update() {
+                this.velocity.x *= this.friction;
+                this.velocity.y *= this.friction;
+                this.velocity.y += this.gravity;
+                this.x += this.velocity.x;
+                this.y += this.velocity.y;
+                this.alpha -= 0.015;
+            }
+        }
+
+        function createFirework() {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * (canvas.height * 0.6);
+            const colors = ['#66fcf1', '#45a29e', '#ff4081', '#ffd700', '#ffffff'];
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            
+            for (let i = 0; i < 40; i++) {
+                particles.push(new Particle(x, y, color));
+            }
+        }
+
+        function animateFireworks() {
+            requestAnimationFrame(animateFireworks);
+            ctx.fillStyle = 'rgba(11, 12, 16, 0.2)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach((particle, index) => {
+                if (particle.alpha > 0) {
+                    particle.update();
+                    particle.draw();
+                } else {
+                    particles.splice(index, 1);
+                }
+            });
+        }
+
+        function startFireworks() {
+            animateFireworks();
+            setInterval(createFirework, 800);
+        }
+    </script>
+</body>
+</html>
